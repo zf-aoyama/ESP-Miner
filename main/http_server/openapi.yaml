@@ -600,3 +600,63 @@ paths:
           description: Unauthorized - Client not in allowed network range
         '500':
           description: Internal server error
+
+  /api/test/start:
+    post:
+      summary: Start ASIC test mode
+      description: Begin diagnostic test sequence
+      operationId: startTestMode
+      tags:
+        - test
+      responses:
+        '200':
+          description: Test started
+        '401':
+          description: Unauthorized - Client not in allowed network range
+        '500':
+          description: Internal server error
+
+  /api/test/stop:
+    post:
+      summary: Stop ASIC test mode
+      description: Abort running tests
+      operationId: stopTestMode
+      tags:
+        - test
+      responses:
+        '200':
+          description: Test stopped
+
+  /api/test/status:
+    get:
+      summary: Get test mode status
+      description: Returns current state of the test module
+      operationId: getTestStatus
+      tags:
+        - test
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  active:
+                    type: boolean
+                  mode:
+                    type: integer
+
+  /api/test/results:
+    get:
+      summary: Get test results
+      description: Retrieve results of completed tests
+      operationId: getTestResults
+      tags:
+        - test
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: No results available
+

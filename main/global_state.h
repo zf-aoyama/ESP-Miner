@@ -1,14 +1,15 @@
 #ifndef GLOBAL_STATE_H_
 #define GLOBAL_STATE_H_
 
-#include <stdbool.h>
-#include <stdint.h>
 #include "asic_task.h"
 #include "common.h"
 #include "power_management_task.h"
 #include "serial.h"
 #include "stratum_api.h"
+#include "test_mode.h"
 #include "work_queue.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 #define STRATUM_USER CONFIG_STRATUM_USER
 #define FALLBACK_STRATUM_USER CONFIG_FALLBACK_STRATUM_USER
@@ -45,7 +46,8 @@ typedef enum
 //     void (*set_version_mask)(uint32_t);
 // } AsicFunctions;
 
-typedef struct {
+typedef struct
+{
     char message[64];
     uint32_t count;
 } RejectedReasonStat;
@@ -97,10 +99,17 @@ typedef struct
 typedef struct
 {
     bool active;
-    char *message;
+    char * message;
     bool result;
     bool finished;
 } SelfTestModule;
+
+typedef struct
+{
+    bool active;
+    test_mode_t mode;
+    esp_err_t last_result;
+} TestModule;
 
 typedef struct
 {
@@ -119,6 +128,7 @@ typedef struct
     AsicTaskModule ASIC_TASK_MODULE;
     PowerManagementModule POWER_MANAGEMENT_MODULE;
     SelfTestModule SELF_TEST_MODULE;
+    TestModule TEST_MODULE;
 
     char * extranonce_str;
     int extranonce_2_len;
